@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMBTC Locker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #downloadLink {
+            display: none;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>HMBTC Locker</h1>
+    <p>请支付设定的比特币金额后，点击下面的链接下载文件。</p>
+
+    <!-- 这里替换为你生成的比特币钱包地址二维码 -->
+    <div id="bitcoinPayment">
+        <img src="YOUR_BITCOIN_QR_CODE_URL" alt="Bitcoin Payment QR Code">
+    </div>
+
+    <p id="statusMessage">正在等待支付...</p>
+
+    <!-- 下载链接 -->
+    <a id="downloadLink" href="YOUR_FILE_URL" download>点击这里下载文件</a>
+
+    <script>
+        // 设置支付完成所需的比特币金额（单位：BTC）
+        const requiredAmount = 0.001;  // 例如：0.001 BTC
+
+        // 模拟一个后端接口检查支付状态
+        function checkPaymentStatus() {
+            fetch('/check-payment')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.paymentReceived) {
+                        document.getElementById('statusMessage').textContent = "支付成功！您可以下载文件。";
+                        document.getElementById('downloadLink').style.display = 'block';
+                    } else {
+                        document.getElementById('statusMessage').textContent = "正在等待支付...";
+                    }
+                });
+        }
+
+        // 每5秒检查一次支付状态
+        setInterval(checkPaymentStatus, 5000);
+    </script>
+</body>
+</html>
